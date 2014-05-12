@@ -9,10 +9,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import org.androidannotations.annotations.*;
 
+@EActivity(R.layout.main)
+@OptionsMenu(R.menu.beer_menu)
 public class MyActivity extends Activity {
 
+    @ViewById
     TextView beerCountView;
+
     int beerCount;
 
     /**
@@ -21,41 +26,23 @@ public class MyActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-
-        beerCountView = (TextView) findViewById(R.id.countView);
-
-        final View addBeerButton = findViewById(R.id.addBeerButton);
-        addBeerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addBeerButtonClicked();
-            }
-        });
 
         loadBeerCount();
     }
 
+    @Click
     void addBeerButtonClicked() {
         beerCount++;
         saveBeerCount(beerCount);
         updateBeerViews();
     }
 
+    @Background
     void saveBeerCount(final int beerCount) {
-
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                getPreferences(MODE_PRIVATE)
-                        .edit()
-                        .putInt("beerCount", beerCount)
-                        .commit();
-                return null;
-            }
-
-        }.execute();
+        getPreferences(MODE_PRIVATE)
+                .edit()
+                .putInt("beerCount", beerCount)
+                .commit();
     }
 
     private void updateBeerViews() {
@@ -68,44 +55,21 @@ public class MyActivity extends Activity {
         }
     }
 
+    @Background
     void loadBeerCount() {
-        new AsyncTask<Void, Void, Integer>() {
-
-            @Override
-            protected Integer doInBackground(Void... params) {
-                SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-                int beerCount = preferences.getInt("beerCount", 0);
-                return beerCount;
-            }
-
-            @Override
-            protected void onPostExecute(Integer beerCount) {
-                beerCountLoaded(beerCount);
-            }
-        }.execute();
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        int beerCount = preferences.getInt("beerCount", 0);
+        beerCountLoaded(beerCount);
     }
 
+    @UiThread
     void beerCountLoaded(int beerCount) {
         this.beerCount = beerCount;
         updateBeerViews();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = this.getMenuInflater();
-        menuInflater.inflate(R.menu.beer_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.emergency) {
-            emergencySelected();
-            return true;
-        }
-        return false;
-    }
-
+    @OptionsItem
     void emergencySelected() {
         beerCount = 0;
         saveBeerCount(beerCount);
