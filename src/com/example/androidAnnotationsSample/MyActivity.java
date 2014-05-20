@@ -16,9 +16,9 @@ import org.androidannotations.annotations.*;
 public class MyActivity extends Activity {
 
     @ViewById
-    TextView beerCountView;
+    TextView countView;
 
-    int beerCount;
+    int count;
 
     /**
      * Called when the activity is first created.
@@ -27,52 +27,52 @@ public class MyActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        loadBeerCount();
+        loadCount();
     }
 
     @Click
     void addBeerButtonClicked() {
-        beerCount++;
-        saveBeerCount(beerCount);
-        updateBeerViews();
+        count++;
+        saveCount(count);
+        updateViews();
     }
 
     @Background
-    void saveBeerCount(final int beerCount) {
+    void saveCount(final int beerCount) {
         getPreferences(MODE_PRIVATE)
                 .edit()
                 .putInt("beerCount", beerCount)
                 .commit();
     }
 
-    private void updateBeerViews() {
-        if (beerCount == 0) {
+    private void updateViews() {
+        if (count == 0) {
             setTitle("Still Sober");
-            beerCountView.setText("");
+            countView.setText("");
         } else {
             setTitle("Drinking");
-            beerCountView.setText(Integer.toString(beerCount));
+            countView.setText(Integer.toString(count));
         }
     }
 
     @Background
-    void loadBeerCount() {
+    void loadCount() {
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        int beerCount = preferences.getInt("beerCount", 0);
-        beerCountLoaded(beerCount);
+        int count = preferences.getInt("count", 0);
+        countLoaded(count);
     }
 
     @UiThread
-    void beerCountLoaded(int beerCount) {
-        this.beerCount = beerCount;
-        updateBeerViews();
+    void countLoaded(int count) {
+        this.count = count;
+        updateViews();
     }
 
 
     @OptionsItem
     void emergencySelected() {
-        beerCount = 0;
-        saveBeerCount(beerCount);
-        updateBeerViews();
+        count = 0;
+        saveCount(count);
+        updateViews();
     }
 }
