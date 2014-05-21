@@ -5,14 +5,14 @@
               android:layout_height="fill_parent"
         >
     <TextView
-            android:id="@+id/beerCountView"
+            android:id="@+id/countView"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Hello World, BeforeAnnotationsActivity"
             />
     <Button android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/addBeerButton"
-            android:text="Add Beer"/>
+            android:id="@+id/addButton"
+            android:text="Add"/>
 </LinearLayout>
 

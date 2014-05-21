@@ -75,16 +75,16 @@ public final class MyActivity_
 
     @Override
     public void onViewChanged(HasViews hasViews) {
-        beerCountView = ((TextView) hasViews.findViewById(id.beerCountView));
+        countView = ((TextView) hasViews.findViewById(id.countView));
         {
-            View view = hasViews.findViewById(id.addBeerButton);
+            View view = hasViews.findViewById(id.addButton);
             if (view!= null) {
                 view.setOnClickListener(new OnClickListener() {
 
 
                     @Override
                     public void onClick(View view) {
-                        MyActivity_.this.addBeerButtonClicked();
+                        MyActivity_.this.addButtonClicked();
                     }
 
                 }
@@ -96,7 +96,7 @@ public final class MyActivity_
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(com.example.androidAnnotationsSample.R.menu.beer_menu, menu);
+        menuInflater.inflate(com.example.androidAnnotationsSample.R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -115,13 +115,13 @@ public final class MyActivity_
     }
 
     @Override
-    public void beerCountLoaded(final int beerCount) {
+    public void countLoaded(final int count) {
         handler_.post(new Runnable() {
 
 
             @Override
             public void run() {
-                MyActivity_.super.beerCountLoaded(beerCount);
+                MyActivity_.super.countLoaded(count);
             }
 
         }
@@ -129,14 +129,14 @@ public final class MyActivity_
     }
 
     @Override
-    public void saveBeerCount(final int beerCount) {
+    public void saveCount(final int count) {
         BackgroundExecutor.execute(new BackgroundExecutor.Task("", 0, "") {
 
 
             @Override
             public void execute() {
                 try {
-                    MyActivity_.super.saveBeerCount(beerCount);
+                    MyActivity_.super.saveCount(count);
                 } catch (Throwable e) {
                     Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
                 }
@@ -147,14 +147,14 @@ public final class MyActivity_
     }
 
     @Override
-    public void loadBeerCount() {
+    public void loadCount() {
         BackgroundExecutor.execute(new BackgroundExecutor.Task("", 0, "") {
 
 
             @Override
             public void execute() {
                 try {
-                    MyActivity_.super.loadBeerCount();
+                    MyActivity_.super.loadCount();
                 } catch (Throwable e) {
                     Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
                 }

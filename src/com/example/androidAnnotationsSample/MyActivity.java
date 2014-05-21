@@ -2,17 +2,12 @@ package com.example.androidAnnotationsSample;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import org.androidannotations.annotations.*;
 
 @EActivity(R.layout.main)
-@OptionsMenu(R.menu.beer_menu)
+@OptionsMenu(R.menu.menu)
 public class MyActivity extends Activity {
 
     @ViewById
@@ -31,26 +26,26 @@ public class MyActivity extends Activity {
     }
 
     @Click
-    void addBeerButtonClicked() {
+    void addButtonClicked() {
         count++;
         saveCount(count);
         updateViews();
     }
 
     @Background
-    void saveCount(final int beerCount) {
+    void saveCount(final int count) {
         getPreferences(MODE_PRIVATE)
                 .edit()
-                .putInt("beerCount", beerCount)
+                .putInt("count", count)
                 .commit();
     }
 
     private void updateViews() {
         if (count == 0) {
-            setTitle("Still Sober");
+            setTitle("None");
             countView.setText("");
         } else {
-            setTitle("Drinking");
+            setTitle("Some");
             countView.setText(Integer.toString(count));
         }
     }
